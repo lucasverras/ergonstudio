@@ -9,6 +9,7 @@ import MagicBentoCard from '@/components/ui/MagicBentoCard'
 import ProcessStep from '@/components/ProcessStep'
 import { CaseMedia } from '@/components/case/CaseMedia'
 import { ServiceFinalCTA } from '@/components/service/ServiceFinalCTA'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import { useSEO } from '@/lib/seo'
 import { SITE_URL, SERVICES, breadcrumbSchema, collectionPageSchema } from '@/lib/schema'
 import { services, DISCOVER_PROCESS } from '@/services/servicesData'
@@ -70,8 +71,12 @@ export default function ServicesHub() {
 
   return (
     <main>
+      <div className="grid-shell pt-8">
+        <Breadcrumb items={[{ name: 'Home', url: '/' }, { name: 'Serviços', url: '/servicos' }]} />
+      </div>
+
       {/* HERO */}
-      <header className="relative overflow-hidden pt-32 pb-14 md:pt-40 md:pb-20">
+      <header className="relative overflow-hidden pt-20 pb-14 md:pt-40 md:pb-20">
         <GradientBars
           numBars={15}
           gradientFrom="var(--color-violet)"
