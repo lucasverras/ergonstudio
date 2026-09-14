@@ -7,6 +7,7 @@ import FlyEquipment from '../components/fly/FlyEquipment'
 import FlyTestimonials from '../components/fly/FlyTestimonials'
 import FlyFaq from '../components/fly/FlyFaq'
 import FlyCTA from '../components/fly/FlyCTA'
+import { Breadcrumb } from '../components/Breadcrumb'
 import { useSEO } from '../lib/seo'
 import { SITE_URL, SERVICE_IDS, breadcrumbSchema, webPageSchema, faqPageSchema } from '../lib/schema'
 import { flyFaq } from './flyServices'
@@ -46,6 +47,15 @@ export default function FlyPage() {
 
   return (
     <main className="fly-page">
+      <div className="grid-shell pt-8">
+        <Breadcrumb
+          items={[
+            { name: 'Home', url: '/' },
+            { name: 'Serviços', url: '/servicos' },
+            { name: 'Drone & Captação Aérea', url: '/fly' },
+          ]}
+        />
+      </div>
       <FlyHero />
       <FlyIntro />
       <FlySegments />

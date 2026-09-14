@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { useSEO } from '@/lib/seo'
 import { SITE_URL, breadcrumbSchema, collectionPageSchema } from '@/lib/schema'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import { revealUp, revealContainer, viewportOnce } from '@/lib/reveal'
 import { GradualSpacing } from '@/components/ui/gradual-spacing'
 import { TextReveal } from '@/components/ui/text-reveal'
@@ -112,7 +113,10 @@ export default function Portfolio() {
 
   return (
     <main>
-      <header className="relative overflow-hidden pt-32 pb-14 md:pt-40 md:pb-20">
+      <div className="grid-shell pt-8">
+        <Breadcrumb items={[{ name: 'Home', url: '/' }, { name: 'Projetos', url: '/portfolio' }]} />
+      </div>
+      <header className="relative overflow-hidden pt-20 pb-14 md:pt-40 md:pb-20">
         <GradientBars
           numBars={15}
           gradientFrom="var(--color-violet)"

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { getServiceBySlug } from '@/services/servicesData'
 import { useSEO } from '@/lib/seo'
 import { SITE_URL, SERVICE_IDS, breadcrumbSchema, webPageSchema, faqPageSchema, serviceSchema } from '@/lib/schema'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import { ServiceHero } from '@/components/service/ServiceHero'
 import { ServiceProblem } from '@/components/service/ServiceProblem'
 import { ServiceWhatWeCreate } from '@/components/service/ServiceWhatWeCreate'
@@ -65,6 +66,15 @@ export default function ServiceDetail() {
 
   return (
     <main>
+      <div className="grid-shell pt-8">
+        <Breadcrumb
+          items={[
+            { name: 'Home', url: '/' },
+            { name: 'Serviços', url: '/servicos' },
+            { name: service.name, url: `/servicos/${service.slug}` },
+          ]}
+        />
+      </div>
       <ServiceHero service={service} />
       <ServiceProblem service={service} />
       <ServiceWhatWeCreate items={service.whatWeCreate} />

@@ -5,6 +5,7 @@ import { getCaseBySlug, getNextCase } from '@/cases/casesData'
 import { servicesForCase } from '@/services/servicesData'
 import { useSEO } from '@/lib/seo'
 import { SITE_URL, SERVICE_IDS, breadcrumbSchema, webPageSchema, caseWorkSchema } from '@/lib/schema'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import { revealUp, revealContainer, viewportOnce } from '@/lib/reveal'
 import { CaseHero } from '@/components/case/CaseHero'
 import { CaseQuickInfo } from '@/components/case/CaseQuickInfo'
@@ -89,6 +90,15 @@ export default function CaseStudy() {
 
   return (
     <main>
+      <div className="grid-shell pt-8">
+        <Breadcrumb
+          items={[
+            { name: 'Home', url: '/' },
+            { name: 'Projetos', url: '/portfolio' },
+            { name: study.name, url: `/portfolio/${study.slug}` },
+          ]}
+        />
+      </div>
       <CaseHero study={study} />
       <CaseQuickInfo servicos={study.servicos} tecnologias={study.tecnologias} entrega={study.entrega} />
 
