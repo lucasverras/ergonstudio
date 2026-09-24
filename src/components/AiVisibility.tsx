@@ -144,9 +144,9 @@ export default function AiVisibility() {
                 ★
               </span>
               <div>
-                <span className="block text-sm font-semibold text-ink">Sua empresa</span>
+                <span className="block text-sm font-semibold text-ink">Ergon Studio</span>
                 <span className="block text-xs text-graphite">
-                  citada como referência no seu segmento
+                  citada como referência em produtos digitais
                 </span>
               </div>
             </div>
