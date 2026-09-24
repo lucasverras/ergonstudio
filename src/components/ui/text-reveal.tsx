@@ -52,13 +52,18 @@ const defaultItemVariants: Variants = {
   visible: { opacity: 1 },
 }
 
+// Animated `filter: blur()` was removed from every preset — it's expensive
+// (forces off-thread raster on each frame) and the brief calls it out
+// explicitly. `blur`/`fade-in-blur` are kept as names for call-site
+// compatibility but now resolve to a plain opacity (+ small 12px lift) fade,
+// so the text arrives fast and legible instead of swimming into focus.
 const presetVariants: Record<TextRevealPreset, { container: Variants; item: Variants }> = {
   blur: {
     container: defaultContainerVariants,
     item: {
-      exit: { filter: 'blur(12px)', opacity: 0 },
-      hidden: { filter: 'blur(12px)', opacity: 0 },
-      visible: { filter: 'blur(0px)', opacity: 1 },
+      exit: { opacity: 0 },
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 },
     },
   },
   fade: {
@@ -72,24 +77,24 @@ const presetVariants: Record<TextRevealPreset, { container: Variants; item: Vari
   'fade-in-blur': {
     container: defaultContainerVariants,
     item: {
-      exit: { filter: 'blur(12px)', opacity: 0, y: 20 },
-      hidden: { filter: 'blur(12px)', opacity: 0, y: 20 },
-      visible: { filter: 'blur(0px)', opacity: 1, y: 0 },
+      exit: { opacity: 0, y: 12 },
+      hidden: { opacity: 0, y: 12 },
+      visible: { opacity: 1, y: 0 },
     },
   },
   scale: {
     container: defaultContainerVariants,
     item: {
-      exit: { opacity: 0, scale: 0 },
-      hidden: { opacity: 0, scale: 0 },
-      visible: { opacity: 1, scale: 1 },
+      exit: { opacity: 0 },
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 },
     },
   },
   slide: {
     container: defaultContainerVariants,
     item: {
-      exit: { opacity: 0, y: 20 },
-      hidden: { opacity: 0, y: 20 },
+      exit: { opacity: 0, y: 12 },
+      hidden: { opacity: 0, y: 12 },
       visible: { opacity: 1, y: 0 },
     },
   },

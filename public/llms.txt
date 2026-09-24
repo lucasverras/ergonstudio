@@ -51,4 +51,4 @@ serviço mais uma vertente audiovisual própria.
 - [sitemap.xml](https://www.ergonstudio.com.br/sitemap.xml)
 - [llms-full.txt](https://www.ergonstudio.com.br/llms-full.txt)
 
-Última atualização: 2026-09-06
+Última atualização: 2026-09-14

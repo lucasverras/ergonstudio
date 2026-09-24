@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { MotionConfig } from 'framer-motion'
-import { SmoothCursor } from './components/ui/smooth-cursor'
 import GridDebugOverlay from './components/GridDebugOverlay'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -60,7 +59,6 @@ function App() {
     <MotionConfig reducedMotion="user">
       <div className="relative isolate min-h-svh bg-bg text-ink">
         <GridDebugOverlay />
-        <SmoothCursor />
         <Navbar />
         <ScrollToHash />
         <Routes>

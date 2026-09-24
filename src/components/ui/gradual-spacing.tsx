@@ -32,12 +32,6 @@ interface GradualSpacingProps {
 
 export function GradualSpacing({
   text,
-  duration = 0.5,
-  delayMultiple = 0.04,
-  framerProps = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 },
-  },
   className,
   as: Tag = 'span',
   highlight,
@@ -48,33 +42,18 @@ export function GradualSpacing({
   const words = text.split(' ')
   const highlightWords = highlight ? highlight.word.split(' ') : []
 
-  // per-word starting character index, precomputed so the highlight-phrase
-  // grouping below doesn't have to juggle a running counter while it skips
-  // ahead by more than one word at a time
-  let running = 0
-  const wordStarts = words.map((word) => {
-    const start = running
-    running += word.length + 1
-    return start
-  })
-
-  function renderLetters(word: string, wi: number) {
-    const startIndex = wordStarts[wi]
+  // Letters are now static: the whole heading reveals as one unit (see the
+  // single motion wrapper in the return) instead of each character sliding
+  // in on its own staggered delay. The per-glyph structure stays only so the
+  // hand-drawn highlight can wrap an exact word without breaking line-
+  // wrapping, and so the visible glyph keeps coming from CSS content
+  // (attr(data-ch)) — the real, selectable text lives in the copy below.
+  function renderLetters(word: string) {
     return word.split('').map((char, ci) => (
-      <motion.span
+      <span
         key={ci}
         aria-hidden="true"
         data-ch={char}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.6 }}
-        variants={framerProps}
-        transition={{ duration, delay: (startIndex + ci) * delayMultiple }}
-        // the visible glyph comes from CSS content (attr(data-ch)) rather
-        // than a real text node — the accessible/selectable copy below is
-        // the only place this letter's text actually exists in the DOM, so
-        // a crawler reading raw textContent (not just the a11y tree that
-        // aria-hidden hides this from) doesn't see the heading duplicated
         className="pointer-events-none [-webkit-user-select:none] select-none drop-shadow-sm before:content-[attr(data-ch)]"
       />
     ))
@@ -91,7 +70,7 @@ export function GradualSpacing({
       <span className="inline-flex flex-wrap">
         {words.slice(wi, groupEnd).map((word, gi) => (
           <span key={gi} className="inline-flex whitespace-nowrap">
-            {renderLetters(word, wi + gi)}
+            {renderLetters(word)}
             {wi + gi < groupEnd - 1 && <span>&nbsp;</span>}
           </span>
         ))}
@@ -124,12 +103,23 @@ export function GradualSpacing({
   // no box of their own and the flex-wrap layout above is unaffected. A
   // second, invisible span holding the plain, un-split text sits on top via
   // `absolute inset-0` — that's what actually gets selected/copied/read.
+  // One reveal for the whole heading: opacity + a 12px lift, 400ms, natural
+  // ease — the layout below is untouched (Tag stays the flex-wrap parent so
+  // wrapping is identical), only now it fades/rises as a single unit.
+  const MotionTag = motion[Tag as keyof typeof motion] as typeof motion.span
+
   return (
-    <Tag className={cn('relative inline-flex flex-wrap', className)}>
+    <MotionTag
+      className={cn('relative inline-flex flex-wrap', className)}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+    >
       <span aria-hidden="true" className="contents">
         {nodes}
       </span>
       <span className="absolute inset-0 opacity-0 select-text">{text}</span>
-    </Tag>
+    </MotionTag>
   )
 }

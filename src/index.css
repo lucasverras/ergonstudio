@@ -213,18 +213,6 @@ button:focus-visible {
    none, so the OS arrow was reappearing on every link/button hover. Match
    SmoothCursor's own capability gate so touch/coarse pointers are
    untouched. */
-@media (hover: hover) and (pointer: fine) {
-  a,
-  button,
-  [role='button'],
-  input,
-  select,
-  textarea,
-  label {
-    cursor: none;
-  }
-}
-
 /* every small mono/label bit site-wide (eyebrows, indices, badges) —
    Host Grotesk at its lightest weight, always caps, instead of a
    monospace typeface */

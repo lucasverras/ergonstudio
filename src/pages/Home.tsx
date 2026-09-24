@@ -1,4 +1,5 @@
 import Hero from '../components/Hero'
+import AiVisibility from '../components/AiVisibility'
 import WhatWeBuild from '../components/WhatWeBuild'
 import WhatItBecomes from '../components/WhatItBecomes'
 import SelectedProjects from '../components/SelectedProjects'
@@ -33,6 +34,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <AiVisibility />
       <WhatWeBuild />
       <WhatItBecomes />
       <SelectedProjects />

@@ -51,8 +51,8 @@ export default function FinalCTA() {
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             className="group inline-flex items-center gap-3 rounded-full bg-lime px-10 py-5 text-base font-medium text-bg shadow-[0_0_0_0_rgba(227,255,12,0)] transition-shadow duration-300 hover:shadow-[0_0_40px_6px_rgba(227,255,12,0.4)] md:text-lg"
           >

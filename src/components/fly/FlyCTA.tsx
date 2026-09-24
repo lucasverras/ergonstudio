@@ -40,7 +40,7 @@ export default function FlyCTA() {
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <motion.a
                   href="mailto:contato@ergonstudio.com.br"
-                  whileHover={{ scale: 1.04 }}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.96 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className="group flex items-center gap-2 rounded-full bg-lime px-8 py-3.5 text-sm font-medium text-bg transition-shadow duration-300 hover:shadow-[0_0_32px_4px_var(--fly-glow-lime)]"
@@ -52,7 +52,7 @@ export default function FlyCTA() {
                   href="https://wa.me/5511967206875"
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.04 }}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.96 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className="rounded-full border px-8 py-3.5 text-sm text-ink transition-shadow hover:shadow-[0_0_24px_2px_rgba(37,211,102,0.35)]"

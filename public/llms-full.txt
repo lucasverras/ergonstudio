@@ -1,7 +1,7 @@
 # Ergon Product Studio — referência completa
 
 > Documento factual sobre a Ergon Studio, mantido no próprio site e gerado
-> a partir do conteúdo publicado nas páginas. Última atualização: 2026-09-06.
+> a partir do conteúdo publicado nas páginas. Última atualização: 2026-09-14.
 
 - Nome: Ergon Product Studio (também citada como "Ergon Studio" ou "Ergon")
 - Posicionamento: digital product studio

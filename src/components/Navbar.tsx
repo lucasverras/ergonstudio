@@ -232,8 +232,8 @@ export default function Navbar() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               className={`group hidden items-center gap-2 rounded-full bg-lime font-medium text-bg shadow-[0_0_0_0_rgba(227,255,12,0)] transition-all duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_0_24px_2px_rgba(227,255,12,0.35)] md:flex ${
                 scrolled ? 'px-5 py-2.5 text-xs' : 'px-6 py-3 text-sm'

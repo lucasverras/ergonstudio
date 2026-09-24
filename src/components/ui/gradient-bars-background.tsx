@@ -12,7 +12,6 @@ export function GradientBars({
   numBars = 15,
   gradientFrom = 'rgb(255, 60, 0)',
   gradientTo = 'transparent',
-  animationDuration = 2,
   className = '',
 }: GradientBarsProps) {
   const calculateHeight = (index: number, total: number) => {
@@ -28,50 +27,40 @@ export function GradientBars({
   }
 
   return (
-    <>
-      <style>{`
-        @keyframes pulseBar {
-          0% { transform: scaleY(var(--initial-scale)); }
-          100% { transform: scaleY(calc(var(--initial-scale) * 0.7)); }
-        }
-      `}</style>
-
-      <div className={`absolute inset-0 z-0 overflow-hidden ${className}`}>
-        <div
-          className="flex h-full"
-          style={{
-            width: '100%',
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden',
-            WebkitFontSmoothing: 'antialiased',
-          }}
-        >
-          {Array.from({ length: numBars }).map((_, index) => {
-            const height = calculateHeight(index, numBars)
-            return (
-              <div
-                key={index}
-                style={
-                  {
-                    flex: `1 0 calc(100% / ${numBars})`,
-                    maxWidth: `calc(100% / ${numBars})`,
-                    height: '100%',
-                    background: `linear-gradient(to top, ${gradientFrom}, ${gradientTo})`,
-                    transform: `scaleY(${height / 100})`,
-                    transformOrigin: 'bottom',
-                    transition: 'transform 0.5s ease-in-out',
-                    animation: `pulseBar ${animationDuration}s ease-in-out infinite alternate`,
-                    animationDelay: `${index * 0.1}s`,
-                    outline: '1px solid rgba(0, 0, 0, 0)',
-                    boxSizing: 'border-box',
-                    '--initial-scale': height / 100,
-                  } as CSSProperties
-                }
-              />
-            )
-          })}
-        </div>
+    <div className={`absolute inset-0 z-0 overflow-hidden ${className}`}>
+      <div
+        className="flex h-full"
+        style={{
+          width: '100%',
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
+          WebkitFontSmoothing: 'antialiased',
+        }}
+      >
+        {/* static bar field — the varying heights carry the visual on their
+            own; the infinite scaleY pulse (15 bars × several instances per
+            page, animating even off-screen) was removed for performance. */}
+        {Array.from({ length: numBars }).map((_, index) => {
+          const height = calculateHeight(index, numBars)
+          return (
+            <div
+              key={index}
+              style={
+                {
+                  flex: `1 0 calc(100% / ${numBars})`,
+                  maxWidth: `calc(100% / ${numBars})`,
+                  height: '100%',
+                  background: `linear-gradient(to top, ${gradientFrom}, ${gradientTo})`,
+                  transform: `scaleY(${height / 100})`,
+                  transformOrigin: 'bottom',
+                  outline: '1px solid rgba(0, 0, 0, 0)',
+                  boxSizing: 'border-box',
+                } as CSSProperties
+              }
+            />
+          )
+        })}
       </div>
-    </>
+    </div>
   )
 }

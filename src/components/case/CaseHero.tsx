@@ -44,11 +44,7 @@ export function CaseHero({ study }: { study: CaseStudy }) {
             variants={revealUp}
             className="mb-4 flex items-center gap-2 text-xs tracking-[0.25em] text-lime uppercase"
           >
-            <motion.span
-              className="h-1.5 w-1.5 rounded-full bg-lime shadow-[0_0_10px_2px_rgba(227,255,12,0.6)]"
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            />
+            <span className="h-1.5 w-1.5 rounded-full bg-lime shadow-[0_0_10px_2px_rgba(227,255,12,0.6)]" />
             Case · Ergon Studio
           </motion.span>
 
