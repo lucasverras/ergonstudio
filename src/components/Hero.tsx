@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ComponentType } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   useReducedMotion,
@@ -10,7 +10,6 @@ import MagicBentoCard from './ui/MagicBentoCard'
 import CircularText from './ui/CircularText'
 import { GradualSpacing } from './ui/gradual-spacing'
 import { TextReveal } from './ui/text-reveal'
-import { useIsMobile } from '@/lib/useIsMobile'
 
 // small preview loop for the hero slideshow — kept local and short (not the
 // full case-study data from Portfolio.tsx) since this is a glance, not the
@@ -22,28 +21,6 @@ const previews = [
 ]
 
 const circularLabel = 'VISUAL DESIGN STUDIO - VISUAL DESIGN STUDIO - '
-
-// DarkVeil pulls in ogl (WebGL) — about a fifth of the app bundle for a
-// purely decorative background that sits behind a CSS gradient which
-// already carries the look on its own. Loading it after mount keeps it out
-// of the bundle the browser must parse before it can hydrate and paint the
-// headline. Renders nothing server-side and nothing on the client's first
-// pass, so there's no hydration mismatch to recover from.
-type DarkVeilProps = React.ComponentProps<typeof import('./ui/dark-veil')['DarkVeil']>
-
-function useDeferredDarkVeil() {
-  const [Veil, setVeil] = useState<ComponentType<DarkVeilProps> | null>(null)
-  useEffect(() => {
-    let alive = true
-    import('./ui/dark-veil').then((m) => {
-      if (alive) setVeil(() => m.DarkVeil)
-    })
-    return () => {
-      alive = false
-    }
-  }, [])
-  return Veil
-}
 
 function PortfolioSlideshow() {
   const [active, setActive] = useState(0)
@@ -157,16 +134,12 @@ function CircularBadge() {
 const container: Variants = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.14, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.06, delayChildren: 0.05 },
   },
 }
 
 
 export default function Hero() {
-  const isMobile = useIsMobile()
-  const DarkVeil = useDeferredDarkVeil()
-  const reduced = useReducedMotion()
-
   return (
     <section
       id="top"
@@ -182,21 +155,6 @@ export default function Hero() {
             'radial-gradient(ellipse 90% 55% at 50% -5%, rgba(227,255,12,0.08) 0%, transparent 65%), radial-gradient(ellipse 60% 40% at 80% 100%, rgba(227,255,12,0.04) 0%, transparent 60%)',
         }}
       />
-      {/* WebGL scanline/noise shader — on desktop full res; on mobile 0.15
-          (16× fewer pixels than the 0.6 that caused 21 000ms TBT). At 0.15
-          the CPPN neural-net shader processes <3% of full-res pixels so the
-          GPU load is dramatically lower while the atmospheric feel stays. */}
-      <div className="pointer-events-none absolute inset-0 z-[1] opacity-70">
-        {DarkVeil && <DarkVeil
-          hueShift={0}
-          noiseIntensity={isMobile ? 0.1 : 0.17}
-          scanlineIntensity={isMobile ? 0.6 : 1}
-          speed={isMobile ? 2 : 3}
-          scanlineFrequency={5}
-          resolutionScale={isMobile ? 0.3 : 1}
-        />}
-      </div>
-
       {/* real content sits on its own explicit stacking layer above decoration/background.
           Headline lives in the top-left, right under the navbar — a real
           grid column (1/8), not absolute/percentage offsets, so it starts on
@@ -218,11 +176,11 @@ export default function Hero() {
         </h1>
       </motion.div>
 
-      {/* rotating circular wordmark, top-right corner */}
+      {/* circular wordmark, top-right corner */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-[220px] z-[var(--z-content)] hidden md:block"
         style={{ right: 'calc(var(--grid-margin) + 2.5rem)' }}
       >
@@ -231,9 +189,9 @@ export default function Hero() {
 
       {/* portfolio slideshow preview, bottom-left corner */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.4, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
         className="absolute bottom-12 z-[var(--z-content)] hidden sm:block"
         style={{ left: 'var(--grid-margin)' }}
       >
@@ -248,8 +206,8 @@ export default function Hero() {
         <TextReveal
           as="p"
           per="line"
-          preset="fade-in-blur"
-          delay={0.9}
+          preset="fade"
+          delay={0.35}
           className="text-right text-sm text-graphite sm:text-base"
         >
           Somos um product studio dedicado a tirar ideias do papel. Da
@@ -262,17 +220,13 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
+        transition={{ duration: 0.4, delay: 0.35 }}
         className="pointer-events-none absolute bottom-10 left-1/2 z-[var(--z-decorative)] hidden -translate-x-1/2 items-center gap-2 rounded-full border border-line bg-surface/60 py-2 pr-3 pl-4 font-mono text-[10px] tracking-widest text-graphite-dim uppercase backdrop-blur-sm lg:flex"
       >
         scroll
-        <motion.span
-          animate={reduced ? undefined : { y: [0, 4, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex h-5 w-5 items-center justify-center rounded-full bg-lime/10 text-lime"
-        >
+        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-lime/10 text-lime">
           ↓
-        </motion.span>
+        </span>
       </motion.div>
     </section>
   )

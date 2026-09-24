@@ -69,14 +69,14 @@ function PortfolioCard({ clip }: { clip: (typeof clips)[number] }) {
           <img
             src={clip.poster}
             alt={`${clip.title} — quadro do voo`}
-            className="h-full w-full scale-100 object-cover transition-transform duration-700 group-hover:scale-110"
+            className="h-full w-full scale-100 object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             loading="lazy"
           />
         )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
         {!playing && (
           <motion.span
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.02 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             className={`absolute inset-0 m-auto flex h-14 w-14 items-center justify-center rounded-full ${
               clip.accent === 'lime' ? 'bg-lime text-bg' : 'bg-violet text-ink'

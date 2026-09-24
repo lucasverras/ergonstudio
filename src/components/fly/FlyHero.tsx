@@ -88,7 +88,7 @@ export default function FlyHero() {
         >
           <motion.a
             href="#orcamento"
-            whileHover={{ scale: 1.04 }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             className="group flex items-center gap-2 rounded-full bg-lime px-8 py-3.5 text-sm font-medium text-bg shadow-[0_0_0_0_rgba(227,255,15,0)] transition-shadow duration-300 hover:shadow-[0_0_32px_4px_rgba(227,255,15,0.45)]"
@@ -98,7 +98,7 @@ export default function FlyHero() {
           </motion.a>
           <motion.a
             href="#portfolio-fly"
-            whileHover={{ scale: 1.04 }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             className="rounded-full border border-line px-8 py-3.5 text-sm text-ink transition-colors hover:text-violet"
@@ -112,16 +112,12 @@ export default function FlyHero() {
         aria-hidden="true"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.6 }}
+        transition={{ delay: 0.35, duration: 0.4 }}
         className="absolute inset-x-0 bottom-8 flex justify-center"
       >
-        <motion.span
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex h-9 w-6 items-start justify-center rounded-full border border-line/60 p-1.5"
-        >
+        <span className="flex h-9 w-6 items-start justify-center rounded-full border border-line/60 p-1.5">
           <span className="h-1.5 w-1 rounded-full bg-lime" />
-        </motion.span>
+        </span>
       </motion.div>
     </section>
   )

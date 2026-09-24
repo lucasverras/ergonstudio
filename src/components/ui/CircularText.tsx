@@ -1,11 +1,10 @@
-import { useEffect } from 'react'
-import { motion, useAnimation, useMotionValue, type Transition } from 'framer-motion'
 import './CircularText.css'
 
-// ported from React Bits' CircularText — swapped the 'motion/react' import
-// for this project's existing framer-motion dependency (same API, same
-// package under a different name) instead of adding a second animation
-// library for one component.
+// ported from React Bits' CircularText, then reduced to a static wordmark:
+// the letters stay laid out around the ring, but the infinite rotation and
+// the hover speed-up were removed — a badge that spins forever is motion
+// without a job, and it ran at the very top of the page on every load.
+// Props kept for call-site compatibility; spin/hover are intentionally inert.
 
 export type CircularTextHover = 'slowDown' | 'speedUp' | 'pause' | 'goBonkers'
 
@@ -16,101 +15,11 @@ interface CircularTextProps {
   className?: string
 }
 
-const getRotationTransition = (duration: number, from: number, loop = true) =>
-  ({
-    from,
-    to: from + 360,
-    ease: 'linear',
-    duration,
-    type: 'tween',
-    repeat: loop ? Infinity : 0,
-  }) as Transition
-
-const SCALE_SPRING: Transition = {
-  type: 'spring',
-  damping: 20,
-  stiffness: 300,
-}
-
-const getTransition = (duration: number, from: number): { rotate: Transition; scale: Transition } => ({
-  rotate: getRotationTransition(duration, from),
-  scale: SCALE_SPRING,
-})
-
-export default function CircularText({
-  text,
-  spinDuration = 20,
-  onHover = 'speedUp',
-  className = '',
-}: CircularTextProps) {
+export default function CircularText({ text, className = '' }: CircularTextProps) {
   const letters = Array.from(text)
-  const controls = useAnimation()
-  const rotation = useMotionValue(0)
-
-  useEffect(() => {
-    const start = rotation.get()
-    controls.start({
-      rotate: start + 360,
-      scale: 1,
-      transition: getTransition(spinDuration, start),
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spinDuration, text, onHover])
-
-  const handleHoverStart = () => {
-    const start = rotation.get()
-    if (!onHover) return
-
-    let transitionConfig: { rotate: Transition; scale: Transition }
-    let scaleVal = 1
-
-    switch (onHover) {
-      case 'slowDown':
-        transitionConfig = getTransition(spinDuration * 2, start)
-        break
-      case 'speedUp':
-        transitionConfig = getTransition(spinDuration / 4, start)
-        break
-      case 'pause':
-        transitionConfig = {
-          rotate: SCALE_SPRING,
-          scale: SCALE_SPRING,
-        }
-        scaleVal = 1
-        break
-      case 'goBonkers':
-        transitionConfig = getTransition(spinDuration / 20, start)
-        scaleVal = 0.8
-        break
-      default:
-        transitionConfig = getTransition(spinDuration, start)
-    }
-
-    controls.start({
-      rotate: start + 360,
-      scale: scaleVal,
-      transition: transitionConfig,
-    })
-  }
-
-  const handleHoverEnd = () => {
-    const start = rotation.get()
-    controls.start({
-      rotate: start + 360,
-      scale: 1,
-      transition: getTransition(spinDuration, start),
-    })
-  }
 
   return (
-    <motion.div
-      className={`circular-text ${className}`}
-      style={{ rotate: rotation }}
-      initial={{ rotate: 0 }}
-      animate={controls}
-      onMouseEnter={handleHoverStart}
-      onMouseLeave={handleHoverEnd}
-    >
+    <div className={`circular-text ${className}`}>
       {letters.map((letter, i) => {
         const rotationDeg = (360 / letters.length) * i
         const factor = Math.PI / letters.length
@@ -124,6 +33,6 @@ export default function CircularText({
           </span>
         )
       })}
-    </motion.div>
+    </div>
   )
 }

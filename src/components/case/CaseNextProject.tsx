@@ -29,7 +29,7 @@ export function CaseNextProject({ next }: { next: CaseStudy }) {
             </h2>
           </div>
           <div className="w-full max-w-xs overflow-hidden rounded-2xl md:w-64">
-            <div className="transition-transform duration-500 group-hover:scale-105">
+            <div className="transition-transform duration-500 group-hover:scale-[1.02]">
               <CaseMedia asset={next.heroMedia} aspect="aspect-[16/10]" />
             </div>
           </div>
