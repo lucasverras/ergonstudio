@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ComponentType } from 'react'
 import { Link } from 'react-router-dom'
 import {
   useReducedMotion,
@@ -10,6 +10,7 @@ import MagicBentoCard from './ui/MagicBentoCard'
 import CircularText from './ui/CircularText'
 import { GradualSpacing } from './ui/gradual-spacing'
 import { TextReveal } from './ui/text-reveal'
+import { useIsMobile } from '@/lib/useIsMobile'
 
 // small preview loop for the hero slideshow — kept local and short (not the
 // full case-study data from Portfolio.tsx) since this is a glance, not the
@@ -21,6 +22,28 @@ const previews = [
 ]
 
 const circularLabel = 'VISUAL DESIGN STUDIO - VISUAL DESIGN STUDIO - '
+
+// DarkVeil pulls in ogl (WebGL) — about a fifth of the app bundle for a
+// decorative background. Loading it after mount keeps it out of the bundle
+// the browser must parse before it can hydrate and paint the headline.
+// Renders nothing server-side and nothing on the client's first pass, so
+// there's no hydration mismatch to recover from. It also self-disables under
+// prefers-reduced-motion and pauses on a hidden tab.
+type DarkVeilProps = React.ComponentProps<typeof import('./ui/dark-veil')['DarkVeil']>
+
+function useDeferredDarkVeil() {
+  const [Veil, setVeil] = useState<ComponentType<DarkVeilProps> | null>(null)
+  useEffect(() => {
+    let alive = true
+    import('./ui/dark-veil').then((m) => {
+      if (alive) setVeil(() => m.DarkVeil)
+    })
+    return () => {
+      alive = false
+    }
+  }, [])
+  return Veil
+}
 
 function PortfolioSlideshow() {
   const [active, setActive] = useState(0)
@@ -140,6 +163,9 @@ const container: Variants = {
 
 
 export default function Hero() {
+  const isMobile = useIsMobile()
+  const DarkVeil = useDeferredDarkVeil()
+
   return (
     <section
       id="top"
@@ -155,6 +181,20 @@ export default function Hero() {
             'radial-gradient(ellipse 90% 55% at 50% -5%, rgba(227,255,12,0.08) 0%, transparent 65%), radial-gradient(ellipse 60% 40% at 80% 100%, rgba(227,255,12,0.04) 0%, transparent 60%)',
         }}
       />
+      {/* WebGL scanline/noise shader — desktop full res; mobile at 0.3
+          resolution (far fewer pixels) so the GPU load stays low while the
+          atmospheric look is preserved. Self-disables under reduced-motion. */}
+      <div className="pointer-events-none absolute inset-0 z-[1] opacity-70">
+        {DarkVeil && <DarkVeil
+          hueShift={0}
+          noiseIntensity={isMobile ? 0.1 : 0.17}
+          scanlineIntensity={isMobile ? 0.6 : 1}
+          speed={isMobile ? 2 : 3}
+          scanlineFrequency={5}
+          resolutionScale={isMobile ? 0.3 : 1}
+        />}
+      </div>
+
       {/* real content sits on its own explicit stacking layer above decoration/background.
           Headline lives in the top-left, right under the navbar — a real
           grid column (1/8), not absolute/percentage offsets, so it starts on
