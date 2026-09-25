@@ -91,6 +91,10 @@ export default function Portfolio() {
     title,
     description,
     canonical,
+    // deliberately kept out of Google: the portfolio renders for visitors
+    // and stays linkable as proof from the service pages, but a search for a
+    // client's name should never surface our case work.
+    noindex: true,
     jsonLd: [
       // CollectionPage + ItemList: one entry per card actually rendered
       // below, in the same order a visitor reads them.

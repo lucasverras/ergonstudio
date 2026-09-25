@@ -51,7 +51,10 @@ export default function CaseStudy() {
     description,
     canonical: study ? canonical : `${SITE_URL}/404`,
     ogImage,
-    noindex: !study,
+    // always noindex: case pages render for visitors and back up the service
+    // pages as proof, but must never show up in Google under a client's name
+    // (an unresolved slug is a 404, which is noindex regardless)
+    noindex: true,
     jsonLd: study
       ? [
           webPageSchema({
